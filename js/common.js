@@ -14,7 +14,7 @@ function elementStatus(src, mode, taburl) {
 	src = relativeToAbsoluteUrl(src).toLowerCase();
 	if (taburl === undefined) taburl = window.location.hostname.toLowerCase();
 	else taburl = extractDomainFromURL(taburl.toLowerCase());
-	if (src.substr(0,11) != 'javascript:' && domainCheck(src) != '0' && (domainCheck(src) == '1' || (domainCheck(src) == '-1' && mode == 'block' && (thirdParty(src, taburl) || !thirdParty(src, taburl) || (thirdParty(src, taburl) && src.indexOf("?") != -1 && (src.indexOf(taburl) != -1 || (taburl.substr(0,4)=='www.' && src.indexOf(taburl.substr(4)) != -1) || src.indexOf(extractDomainFromURL(src), extractDomainFromURL(src).length) != -1 || (extractDomainFromURL(src).substr(0,4)=='www.' && src.indexOf(extractDomainFromURL(src).substr(4), extractDomainFromURL(src).length) != -1) || src.indexOf(getDomain(taburl, 1)) != -1)))))) return true;
+	if (src.substr(0,11) != 'javascript:' && taburl != 'newtab' && domainCheck(src) != '0' && (domainCheck(src) == '1' || (domainCheck(src) == '-1' && mode == 'block' && (thirdParty(src, taburl) || !thirdParty(src, taburl) || (thirdParty(src, taburl) && src.indexOf("?") != -1 && (src.indexOf(taburl) != -1 || (taburl.substr(0,4)=='www.' && src.indexOf(taburl.substr(4)) != -1) || src.indexOf(extractDomainFromURL(src), extractDomainFromURL(src).length) != -1 || (extractDomainFromURL(src).substr(0,4)=='www.' && src.indexOf(extractDomainFromURL(src).substr(4), extractDomainFromURL(src).length) != -1) || src.indexOf(getDomain(taburl, 1)) != -1)))))) return true;
 	return false;
 }
 function thirdParty(url, taburl) {

@@ -8,40 +8,18 @@
 <body>
 	<div id="message"></div> 
 	<div id="main">
-	<h1>Updated to v<span id="versionno"></span>! (Tuesday, July 2, 2013)</h1>
+	<h1>Updated to v<span id="versionno"></span>! (Saturday, May 17, 2014)</h1>
 	<div style="text-align: left; line-height: 18px; font-size: 13px;"><br />
-	<b style="color: red">IMPORTANT: please read below due to recent events in the United States re: Edward Snowden and your privacy</b><br /><br />
-	It was revealed that the United States National Security Agency was/is operating a national security electronic surveillance program, with the following companies participating in the program: Microsoft, Google, Yahoo!, Facebook, Paltalk, YouTube, AOL, Skype, and Apple. To stay up to date, <a href="http://www.guardian.co.uk/world/the-nsa-files" target="_blank">The Guardian</a> has extensive coverage.<br /><br />
-	For other privacy-focused extensions to use in conjunction with ScriptSafe, check out:
-	<ul>
-		<li><a href="https://chrome.google.com/webstore/detail/https-everywhere/gcbommkclmclpchllfjekcdonpmejbdp" target="_blank">HTTPS Everywhere</a></li>
-		<li><a href="https://chrome.google.com/webstore/detail/ghostery/mlomiejdfkolichcflejclcbmpeaniij" target="_blank">Ghostery</a> (if you enable the "GhostRank" option, Ghostery will be reporting anonymous data back to Ghostery servers)</li>
-		<li><a href="https://chrome.google.com/webstore/detail/disconnect/jeoacafpbcihiomhlakheieifhpjdfeo" target="_blank">Disconnect</a></li>
-		<li><a href="https://chrome.google.com/webstore/detail/donottrackme/epanfjkfahimkgomnigadpkobaefekcd" target="_blank">DoNotTrackMe</a></li>
-		<li><a href="https://chrome.google.com/webstore/detail/empty-title/cfhdojbkjhnklbpkdaibdccddilifddb" target="_blank">Adblock Plus</a> with all of the subscription lists on the <a href="https://www.fanboy.co.nz/" target="_blank">Fanboy site</a></li>
-	</ul>
-	Browser extensions alone play a small part in protecting your privacy. To be in more control of your privacy, check out <a href="http://prism-break.org/" target="_blank">http://prism-break.org/</a> and <a href="http://fixtracking.com/" target="_blank">http://fixtracking.com/</a>.<br /><br />
-	<b>Just as a note: ScriptSafe does not have any backdoors, nor does it contact any third-party server. ScriptSafe was created by one ordinary guy (me), lovingly coded in my bedroom, without any intention other than to give you back control of the Internet.</b><br /><br /><i>You can go through the <a href="https://code.google.com/p/scriptno/source/browse/trunk" target="_blank">source code</a> and/or go through the actual instance installed on your computer by going to C:\Users\<b>**your username**</b>\AppData\Local\Google\Chrome\User Data\Default\Extensions\oiigbmnaadbkfbmpbfijlflahbdbdgdf (for non-Windows users, search for a folder named <b>oiigbmnaadbkfbmpbfijlflahbdbdgdf</b>)</i>
-	<br /><br />
+	With the genuine wish of providing a truly secure browsing experience to all ScriptSafe users, this update focuses on implementing something that has been largely missing in previous versions: <b>true inline script blocking</b>.<br /><br />
+	Compelete credits for this update goes to gorhill and the <a href="https://chrome.google.com/webstore/detail/http-switchboard/mghdpehejfekicfjcdbfofhcmnjhgaag" target="_blank">HTTP Switchboard</a> extension.<br /><br />
 	Without further ado, here are the additions/changes to ScriptSafe in this release:
 	<ul>
-		<li><b>v1.0.6.14/1.0.6.15:</b><ul>
-			<li>addressed <a href="https://code.google.com/p/scriptno/issues/detail?id=80" target="_blank">high CPU/RAM usage</a> (thanks vnagarnaik!)</li>
-			<li>updated and optimized the Unwanted Content Providers blacklist, which should fix many of the false positives reported</li>
-			<li>optimized webbug blocking capabilities</li>
-			<li>fixed issue where the raw HTML code of NOSCRIPT elements were being displayed</li>
-			<li>added a tab data cleanup function to run every 10 minutes to free up unused memory</li>
-			<li>fixed <a href="https://code.google.com/p/scriptno/issues/detail?id=186" target="_blank">duplicate confirmation messages on Option page</a></li>
-			<li>minor tweak to <a href="https://code.google.com/p/scriptno/issues/detail?id=189" target="_blank">button colours in popup widget</a></li>
-			<li>minor code optimizations</li>
+		<li><b>v1.0.6.17:</b><ul>
+			<li>implemented true inline script blocking (credits to <a href="https://github.com/gorhill/httpswitchboard/wiki/Blocking-javascript-execution-reliably-in-Chromium-based-browsers" target="_blank">gorhill</a> and the HTTP Switchboard project)</li>
 		</ul></li>
 	</ul>
-	My goals for the future:
-	<ul>
-		<li>Language translations</li>
-		<li>Interface redesign</li>
-		<li>Fixing as many reported issues as possible</li>
-	</ul>
+	I recognize and love to a great extension when I see one, and I would recommend ScriptSafe users to check out <a href="https://chrome.google.com/webstore/detail/http-switchboard/mghdpehejfekicfjcdbfofhcmnjhgaag" target="_blank">HTTP Switchboard</a>, as it features granular control over what what pages load.<br /><br />
+	Over the past few months, I have been working on revamping ScriptSafe, implementing language support, and with the help of several translators, have German, Spanish, Brazilian, Chinese, and English (US and British) translations integrated. I will be considering moving the project from Google Code to Github for increased transparency and collaboration potential. If you are feeling brave, you may download v1.0.7.0 alpha <a href="http://andryou.com/scriptsafe.1070.alpha.zip" target="_blank">here</a>. Please make a back-up of your settings.<br /><br />
 	Thank you, and enjoy.	
 	</div>
 	<input type="button" id="loadoptionspage" value="Options" />
@@ -49,6 +27,9 @@
 	<br />
 	<input type="button" id="disableNotification" value="Don't Show This Page Again" />
 	<br class="clear">
+	<br />
+	<b>Just as a note: ScriptSafe does not have any backdoors, nor does it contact any third-party server at any point in time. ScriptSafe was created by one ordinary guy (me), lovingly coded in my bedroom, without any intention other than to give you back control of the Internet.</b><br /><br /><i>You can go through the actual instance installed on your computer by going to C:\Users\<b>**your username**</b>\AppData\Local\Google\Chrome\User Data\Default\Extensions\oiigbmnaadbkfbmpbfijlflahbdbdgdf (for non-Windows users, search for a folder named <b>oiigbmnaadbkfbmpbfijlflahbdbdgdf</b>)</i>
+	<br />
 	<br />
 	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="display: inline;">
 	<input type="hidden" name="cmd" value="_s-xclick">

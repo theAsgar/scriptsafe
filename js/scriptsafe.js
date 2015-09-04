@@ -28,13 +28,14 @@ function refreshRequestTypes() {
 if (typeof chrome.storage !== 'undefined') {
 	storageapi = true;
 }
-if (typeof chrome.webRequest !== 'undefined' && typeof chrome.contentSettings !== 'undefined') {
+if (typeof chrome.webRequest !== 'undefined') {
 	if (experimental == 0) experimental = 1;
 	requestUrls = ["http://*/*", "https://*/*"];
 	refreshRequestTypes();
 	if (typeof chrome.webRequest !== 'undefined') {
 		chrome.webRequest.onBeforeRequest.addListener(ScriptSafe, {"types": requestTypes, "urls": requestUrls}, ['blocking']);
 		chrome.webRequest.onBeforeSendHeaders.addListener(mitigate, {"types": requestTypes, "urls": requestUrls}, ['requestHeaders', 'blocking']);
+		chrome.webRequest.onHeadersReceived.addListener(inlineblock, {"types": requestTypes, "urls": requestUrls}, ['responseHeaders', 'blocking']);
 	}
 }
 function mitigate(req) {
@@ -121,15 +122,28 @@ function UrlInList(url, elems) { // thanks vnagarnaik!
 	}
 	return foundElem;
 }
+function inlineblock(req) {
+	if (req.tabId == -1 || req.url == 'undefined' || localStorage["enable"] == "false") {
+		return;
+	}
+    var headers = req.responseHeaders;
+	if (req.type == 'main_frame') {
+		requrl = req.url.toLowerCase();
+		if (experimental == '1' && localStorage['preservesamedomain'] == 'false' && localStorage['script'] == 'true' && enabled(requrl) == 'true') {
+			headers.push({
+				'name': 'Content-Security-Policy',
+				'value': "script-src 'none'"
+			});
+		}
+	}
+    return { responseHeaders: headers };
+}
 function ScriptSafe(req) {
 	if (req.tabId == -1 || req.url == 'undefined' || localStorage["enable"] == "false") {
 		return;
 	}
 	requrl = req.url.toLowerCase();
 	if (req.type == 'main_frame') {
-		if (experimental == '1' && localStorage['preservesamedomain'] == 'false' && localStorage['script'] == 'true' && enabled(requrl) == 'true') {
-			chrome.contentSettings['javascript'].set({primaryPattern: '*://'+extractDomainFromURL(requrl)+'/*', setting: 'block'});
-		}
 		if (typeof ITEMS[req.tabId] === 'undefined') {
 			resetTabData(req.tabId, requrl);
 		} else {
@@ -154,7 +168,7 @@ function ScriptSafe(req) {
 			//console.log("BLOCKED: "+reqtype+"|"+requrl);
 			if (typeof ITEMS[req.tabId]['blocked'] === 'undefined') ITEMS[req.tabId]['blocked'] = [];
 			if (!UrlInList(removeParams(req.url), ITEMS[req.tabId]['blocked'])) {
-				console.log(req.url+"|"+UrlInList(removeParams(req.url), ITEMS[req.tabId]['blocked']));
+				//console.log(req.url+"|"+UrlInList(removeParams(req.url), ITEMS[req.tabId]['blocked']));
 				ITEMS[req.tabId]['blocked'].push([removeParams(req.url), reqtype.toUpperCase()]);
 				updateCount(req.tabId);
 			}
@@ -434,9 +448,6 @@ chrome.tabs.onUpdated.addListener(function(tabid, changeinfo, tab) {
 				icontype = "Temp";
 			chrome.browserAction.setIcon({path: "../img/Icon"+icontype+".png", tabId: tabid});
 		} else if (changeinfo.status == "complete") {
-			if (experimental == '1') {
-				chrome.contentSettings.javascript.clear({});
-			}
 			if (typeof ITEMS[tabid] !== 'undefined') {
 				if (localStorage['referrer'] == 'true') {
 					chrome.tabs.executeScript(tabid, {code: 'blockreferrer()', allFrames: true});
@@ -772,8 +783,8 @@ if (!optionExists("version") || localStorage["version"] != version) {
 	listsSync(3);
 	localStorage["version"] = version;
 	if (localStorage["updatenotify"] == "true") {
+		// v1.0.6.18 is a minor update, so temporarily disable the updated notification for it
 		//chrome.tabs.create({ url: chrome.extension.getURL('html/updated.html'), selected: true });
-		// disable for now since it's a minor update
 	}
 }
 function tabClean() {
